@@ -16,6 +16,7 @@ public class LevelSystem : MonoBehaviour {
   public int m_StartWidth;
 
   [Header("Debug")]
+  public List<Vector3> m_RoomPositions;
   public List<GameObject> m_SpawnedRooms;
 
   //Privates
@@ -41,6 +42,12 @@ public class LevelSystem : MonoBehaviour {
   {
     Debug.Log("[LVGEN] Generating Rooms");
 
+    //Reset Lists
+    m_RoomPositions.Clear();
+    for (int i = 0; i < m_SpawnedRooms.Count; ++i)
+      Destroy(m_SpawnedRooms[i]);
+    m_SpawnedRooms.Clear();   
+
     //Sort Rooms
     SortRooms();
 
@@ -59,6 +66,10 @@ public class LevelSystem : MonoBehaviour {
         spawnPos.x += m_RoomBaseSize.x * j;
         spawnPos.z += m_RoomBaseSize.z * i;
         spawnedRoom.transform.position = spawnPos;
+
+        //Push into lists
+        m_RoomPositions.Add(spawnPos);
+        m_SpawnedRooms.Add(spawnedRoom);
       }
     }
 
