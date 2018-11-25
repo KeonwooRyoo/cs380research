@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionStay(Collision collision)
     {
-        if(collision.collider.tag == "ground")
+        if(collision.collider.tag == "Ground")
         {
             on_ground = true;
         }
