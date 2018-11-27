@@ -19,6 +19,9 @@ public class LevelSystem : MonoBehaviour {
   public List<Vector3> m_RoomPositions;
   public List<GameObject> m_SpawnedRooms;
 
+  [Header("Navigator")]
+  public Arrow arrow;
+
   //Privates
   List<GameObject> p_SortedRooms;   //Possible Usage to sort by heuristic cost
 
@@ -61,7 +64,15 @@ public class LevelSystem : MonoBehaviour {
     {
       for (int j = 0; j < width; ++j)
       {
-        GameObject spawnedRoom = Instantiate(Rooms[0]);
+        GameObject spawnedRoom;
+        if ((j == 0 && i == 0) || (j == width - 1 && i == height - 1))//if it's the spawn or the goal then make it a default room
+        {
+          spawnedRoom = Instantiate(Rooms[0]);
+        }
+        else//if it's neither the goal nore the spawn then select another room
+        {
+          spawnedRoom = Instantiate(Rooms[Random.Range(0, Rooms.Length)]);
+        }
         Vector3 spawnPos = anchor;
         spawnPos.x += m_RoomBaseSize.x * j;
         spawnPos.z += m_RoomBaseSize.z * i;
@@ -70,6 +81,10 @@ public class LevelSystem : MonoBehaviour {
         //Push into lists
         m_RoomPositions.Add(spawnPos);
         m_SpawnedRooms.Add(spawnedRoom);
+        if(j == width - 1 && i == height - 1)//if it's the goal then set it's position as the goal
+        {
+          arrow.SetTarget(spawnedRoom.transform);
+        }
       }
     }
 
