@@ -2,8 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DummyEnum
+{
+  HazardA,
+  HazardB,
+  HazardC
+}
+
 public class LevelSystem : MonoBehaviour {
   [Header("Necessary Objects")]
+  public GameObject StartRoom;
+  public GameObject GoalRoom;
   public GameObject[] Rooms;
   public GameObject Wall;
 
@@ -14,6 +23,11 @@ public class LevelSystem : MonoBehaviour {
   public bool m_GenerateOnStart;
   public int m_StartHeight;
   public int m_StartWidth;
+
+  [Header("System Restrictions")]
+  public int m_MinWidth;
+  public int m_MinHeight;
+  public int m_MinGoalOffset;
 
   [Header("Debug")]
   public List<Vector3> m_RoomPositions;
@@ -49,7 +63,13 @@ public class LevelSystem : MonoBehaviour {
     m_RoomPositions.Clear();
     for (int i = 0; i < m_SpawnedRooms.Count; ++i)
       Destroy(m_SpawnedRooms[i]);
-    m_SpawnedRooms.Clear();   
+    m_SpawnedRooms.Clear();
+
+    //Check that given parameters are valid
+    if (height < m_MinHeight)
+      height = m_MinHeight;
+    if (width < m_MinWidth)
+      width = m_MinWidth;
 
     //Sort Rooms
     SortRooms();
@@ -59,20 +79,67 @@ public class LevelSystem : MonoBehaviour {
     anchor.x = -m_RoomBaseSize.x * width;
     anchor.z = -m_RoomBaseSize.z * height;
 
+    //Set a start and goal
+    Vector2 startIndex = 
+      new Vector2(Random.Range(0, width - 1), Random.Range(0, height - 1));
+    Vector2 goalIndex =
+      new Vector2(Random.Range(0, width - 1), Random.Range(0, height - 1));
+    int goalOffset =
+      IndexDistance(startIndex, goalIndex);
+    
+    //Make sure start and goal are a minimum # of rooms apart
+    while (goalOffset < m_MinGoalOffset)
+    {
+      goalIndex =
+        new Vector2(Random.Range(0, width - 1), Random.Range(0, height - 1));
+      goalOffset =
+        IndexDistance(startIndex, goalIndex);
+    }
+
+    //Find maximum index distance between the goal and any index
+    float maxIndexDistance = 0;
+    if (Mathf.Abs((int)goalIndex.x - width) > Mathf.Abs((int)goalIndex.x - 0))
+      maxIndexDistance += Mathf.Abs((int)goalIndex.x - width);
+    else
+      maxIndexDistance += Mathf.Abs((int)goalIndex.x - 0);
+    if (Mathf.Abs((int)goalIndex.y - height) > Mathf.Abs((int)goalIndex.y - 0))
+      maxIndexDistance += Mathf.Abs((int)goalIndex.y - height);
+    else
+      maxIndexDistance += Mathf.Abs((int)goalIndex.x - 0);
+
+    Debug.Log("[LVGEN] Max Index Distance from goal is: " + maxIndexDistance);
+    
     //Create rooms
     for (int i = 0; i < height; ++i)
     {
       for (int j = 0; j < width; ++j)
       {
         GameObject spawnedRoom;
-        if ((j == 0 && i == 0) || (j == width - 1 && i == height - 1))//if it's the spawn or the goal then make it a default room
-        {
-          spawnedRoom = Instantiate(Rooms[0]);
-        }
-        else//if it's neither the goal nore the spawn then select another room
-        {
-          spawnedRoom = Instantiate(Rooms[Random.Range(0, Rooms.Length)]);
-        }
+        int mask = 1;                //The number of indexes to mask based on distance
+        //Set mask value
+        float indexDistance = 
+          IndexDistance(new Vector2(j, i), goalIndex);
+        float distanceRatio = indexDistance / maxIndexDistance;
+        //Lock mask so it can only mask up to 75% of the total vector
+        mask +=
+          (int)(((float)p_SortedRooms.Count * .75f) * distanceRatio);
+        Debug.Log("[LVGEN] Mask set to: " + mask +
+                  " at Distance Ratio: " + distanceRatio + 
+                  " from index: " + new Vector2(j, i) +
+                  " to goal index: " + goalIndex);
+
+
+        //Check if start or goal
+        if (i == startIndex.y && j == startIndex.x)
+          spawnedRoom = 
+            Instantiate(StartRoom);
+        else if (i == goalIndex.y && j == goalIndex.x)
+          spawnedRoom = 
+            Instantiate(GoalRoom);
+        else
+          spawnedRoom = 
+            Instantiate(p_SortedRooms[Random.Range(0, p_SortedRooms.Count - mask)]);
+
         Vector3 spawnPos = anchor;
         spawnPos.x += m_RoomBaseSize.x * j;
         spawnPos.z += m_RoomBaseSize.z * i;
@@ -81,12 +148,11 @@ public class LevelSystem : MonoBehaviour {
         //Push into lists
         m_RoomPositions.Add(spawnPos);
         m_SpawnedRooms.Add(spawnedRoom);
-        if(j == width - 1 && i == height - 1)//if it's the goal then set it's position as the goal
-        {
-          arrow.SetTarget(spawnedRoom.transform);
-        }
       }
     }
+
+    //Set arrow direction to the goal
+    arrow.SetTarget(m_SpawnedRooms[(int)goalIndex.y * width + (int)goalIndex.x].transform);
 
 
     //Create border walls
@@ -142,7 +208,7 @@ public class LevelSystem : MonoBehaviour {
                     zRot);
     }
 
-    //Randomly create inner walls
+    //Create inner walls
 
 
     return true;
@@ -160,5 +226,10 @@ public class LevelSystem : MonoBehaviour {
     for (int i = 0; i < Rooms.Length; ++i)
       p_SortedRooms.Add(Rooms[i]);
 
+  }
+
+  int IndexDistance(Vector2 index1, Vector2 index2)
+  {
+    return (int)(Mathf.Abs(index1.x - index2.x) + Mathf.Abs(index1.y - index2.y));
   }
 }
