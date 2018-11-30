@@ -65,18 +65,19 @@
     <Compile Include="Assets\Player_Controller\Helper.cs" />
     <Compile Include="Assets\Player_Controller\Player_Stat_Traker.cs" />
     <Compile Include="Assets\Player_Controller\PlayerController.cs" />
+    <Compile Include="Assets\Player_Controller\Spawn.cs" />
     <Compile Include="Assets\Scripts\LevelSystem.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>D:/GAT240/CS380/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/DJ/Desktop/CS380/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/GAT240/CS380/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/DJ/Desktop/CS380/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>D:/GAT240/CS380/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/DJ/Desktop/CS380/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/GAT240/CS380/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/DJ/Desktop/CS380/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

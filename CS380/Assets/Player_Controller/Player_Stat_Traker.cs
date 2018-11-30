@@ -3,6 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum Rooms
+{
+    SpawnRoom = 0,
+    HazardRoomA = 1,
+    HazardRoomB = 2,
+    ItemRoomA = 3,
+    ItemRoomB = 4,
+    GoalRoom = 5,
+    RoomIndex = 6
+};
+
 public class Player_Stat_Traker : MonoBehaviour {
 
   float Deaths_A = 0;
@@ -15,21 +26,33 @@ public class Player_Stat_Traker : MonoBehaviour {
   public float Item_B_Amount = 10;
   public GameObject spawn;
   bool respawn = false;
-  public float Item_A_Left = 1;
-  public float Item_B_Left = 1;
+  public float Item_A_Left = 0;
+  public float Item_B_Left = 0;
   public float AB_DeathRatio = 0;
   public float BA_DeathRatio = 0;
 
+  public float[] RoomWeights;
 
   public GameObject Item_A_Counter;
   public GameObject Item_B_Counter;
     // Use this for initialization
     void Start ()
     {
+        RoomWeights = new float[(int)Rooms.RoomIndex];
+        spawn = GameObject.FindGameObjectWithTag("Spawn");
+        gameObject.GetComponent<Transform>().position = spawn.transform.position;
         string tex = "Item A: " + Item_A.ToString() + "/" + Item_A_Amount.ToString();
         Item_A_Counter.GetComponent<Text>().text = tex;
         tex = "Item B: " + Item_B.ToString() + "/" + Item_B_Amount.ToString();
         Item_B_Counter.GetComponent<Text>().text = tex;
+
+
+        RoomWeights[(int)Rooms.SpawnRoom] = 0.0f;
+        RoomWeights[(int)Rooms.HazardRoomA] = AB_DeathRatio;
+        RoomWeights[(int)Rooms.HazardRoomB] = BA_DeathRatio;
+        RoomWeights[(int)Rooms.ItemRoomA] = Item_A_Left;
+        RoomWeights[(int)Rooms.ItemRoomB] = Item_B_Left;
+        RoomWeights[(int)Rooms.GoalRoom] = 0.0f;
     }
 	
 	// Update is called once per frame
@@ -39,7 +62,7 @@ public class Player_Stat_Traker : MonoBehaviour {
             respawn = false;
         }
 
-	}
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -70,31 +93,40 @@ public class Player_Stat_Traker : MonoBehaviour {
         {
             respawn = true;
             ++Item_A;
-            Item_A_Left = (Item_A_Amount - Item_A) / Item_A_Amount;
+            Item_A_Left = 1.0f - (Item_A_Amount - Item_A) / Item_A_Amount;
             Object.Destroy(other.gameObject);
             string tex = "Item A: " + Item_A.ToString() + "/" + Item_A_Amount.ToString();
             Item_A_Counter.GetComponent<Text>().text = tex;
+            RoomWeights[(int)Rooms.ItemRoomA] = Item_A_Left;
         }
         if (other.tag == "ItemB" && respawn == false)
         {
             respawn = true;
             ++Item_B;
-            Item_B_Left = (Item_B_Amount - Item_B) / Item_B_Amount;
+            Item_B_Left = 1.0f - (Item_B_Amount - Item_B) / Item_B_Amount;
             Object.Destroy(other.gameObject);
             string tex = "Item B: " + Item_B.ToString() + "/" + Item_B_Amount.ToString();
-            Item_A_Counter.GetComponent<Text>().text = tex;
+            Item_B_Counter.GetComponent<Text>().text = tex;
+            RoomWeights[(int)Rooms.ItemRoomB] = Item_B_Left;
         }
         if (other.tag == "HazardAEnter" && respawn == false)
         {
             respawn = true;
             ++Hazard_A_Enter;
             Object.Destroy(other.gameObject);
+            RoomWeights[(int)Rooms.HazardRoomA] = AB_DeathRatio;
         }
         if (other.tag == "HazardBEnter" && respawn == false)
         {
             respawn = true;
             ++Hazard_B_Enter;
             Object.Destroy(other.gameObject);
+            RoomWeights[(int)Rooms.HazardRoomB] = BA_DeathRatio;
         }
+    }
+
+    public float GetCaust(Rooms room)
+    {
+        return RoomWeights[(int)room];
     }
 }

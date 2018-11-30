@@ -33,20 +33,24 @@ public class LevelSystem : MonoBehaviour {
   public List<Vector3> m_RoomPositions;
   public List<GameObject> m_SpawnedRooms;
 
-  [Header("Navigator")]
-  public Arrow arrow;
+
+  [Header("Stats")]
+  public Player_Stat_Traker stats;
 
   //Privates
   List<GameObject> p_SortedRooms;   //Possible Usage to sort by heuristic cost
 
+    private void Awake()
+    {
+        p_SortedRooms = new List<GameObject>();
+        m_SpawnedRooms = new List<GameObject>();
 
-	// Use this for initialization
-	void Start () {
-    p_SortedRooms = new List<GameObject>();
-    m_SpawnedRooms = new List<GameObject>();
-
-    if (m_GenerateOnStart)
-      GenerateRooms(m_StartHeight, m_StartWidth);
+        if (m_GenerateOnStart)
+            GenerateRooms(m_StartHeight, m_StartWidth);
+    }
+    // Use this for initialization
+    void Start () {
+    
 	}
 	
 	// Update is called once per frame
@@ -150,9 +154,6 @@ public class LevelSystem : MonoBehaviour {
         m_SpawnedRooms.Add(spawnedRoom);
       }
     }
-
-    //Set arrow direction to the goal
-    arrow.SetTarget(m_SpawnedRooms[(int)goalIndex.y * width + (int)goalIndex.x].transform);
 
 
     //Create border walls

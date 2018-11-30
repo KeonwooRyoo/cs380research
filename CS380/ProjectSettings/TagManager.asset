@@ -11,6 +11,8 @@ TagManager:
   - ItemA
   - HazardAEnter
   - HazardBEnter
+  - Spawn
+  - Goal
   layers:
   - Default
   - TransparentFX
