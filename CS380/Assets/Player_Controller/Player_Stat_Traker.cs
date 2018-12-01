@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public enum Rooms
 {
-    HazardRoomA,
-    HazardRoomB,
-    ItemRoomA,
-    ItemRoomB,
-    RoomIndex
+    SpawnRoom = 0,
+    HazardRoomA = 1,
+    HazardRoomB = 2,
+    ItemRoomA = 3,
+    ItemRoomB = 4,
+    GoalRoom = 5,
+    RoomIndex = 6
 };
 
 public class Player_Stat_Traker : MonoBehaviour {
@@ -45,12 +47,12 @@ public class Player_Stat_Traker : MonoBehaviour {
         Item_B_Counter.GetComponent<Text>().text = tex;
 
 
-        //RoomWeights[(int)Rooms.SpawnRoom] = 0.0f;
+        RoomWeights[(int)Rooms.SpawnRoom] = 0.0f;
         RoomWeights[(int)Rooms.HazardRoomA] = AB_DeathRatio;
         RoomWeights[(int)Rooms.HazardRoomB] = BA_DeathRatio;
         RoomWeights[(int)Rooms.ItemRoomA] = Item_A_Left;
         RoomWeights[(int)Rooms.ItemRoomB] = Item_B_Left;
-        //RoomWeights[(int)Rooms.GoalRoom] = 0.0f;
+        RoomWeights[(int)Rooms.GoalRoom] = 0.0f;
     }
 	
 	// Update is called once per frame
@@ -125,7 +127,6 @@ public class Player_Stat_Traker : MonoBehaviour {
 
     public float GetCaust(Rooms room)
     {
-    Debug.Log("[STAT] Getting cost for room: " + room);
         return RoomWeights[(int)room];
     }
 }

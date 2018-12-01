@@ -11,12 +11,10 @@ public enum DummyEnum
 
 public class LevelSystem : MonoBehaviour {
   [Header("Necessary Objects")]
-  public GameObject PlayerStatTracker;
   public GameObject StartRoom;
   public GameObject GoalRoom;
-  public GameObject[] RoomPrefabs;
+  public GameObject[] Rooms;
   public GameObject Wall;
-  public GameObject Divider;
 
   [Header("Room Variables")]
   public Vector3 m_RoomBaseSize;
@@ -35,8 +33,12 @@ public class LevelSystem : MonoBehaviour {
   public List<Vector3> m_RoomPositions;
   public List<GameObject> m_SpawnedRooms;
 
+
+  [Header("Stats")]
+  public Player_Stat_Traker stats;
+
   //Privates
-  public List<GameObject> p_SortedRooms;   //Possible Usage to sort by heuristic cost
+  List<GameObject> p_SortedRooms;   //Possible Usage to sort by heuristic cost
 
     private void Awake()
     {
@@ -207,28 +209,7 @@ public class LevelSystem : MonoBehaviour {
                     zRot);
     }
 
-    //Create inner divider
-    //Find lowest left room position
-    anchor = m_RoomPositions[0];
-    //Set to it top right corner
-    anchor.x += m_RoomBaseSize.x / 2.0f;
-    anchor.z += m_RoomBaseSize.z / 2.0f;
-    //Vertical offset
-    anchor.y += m_RoomBaseSize.y;
-
-    //Spawn Dividers
-    for (int i = 0; i < height; ++i)
-    {
-      for (int j = 0; j < width; ++j)
-      {
-        GameObject spawnedDivider = Instantiate(Divider);
-
-        Vector3 spawnPos = anchor;
-        spawnPos.x += m_RoomBaseSize.x * j;
-        spawnPos.z += m_RoomBaseSize.z * i;
-        spawnedDivider.transform.position = spawnPos;
-      }
-    }
+    //Create inner walls
 
 
     return true;
@@ -236,16 +217,6 @@ public class LevelSystem : MonoBehaviour {
 
   void SortRooms()
   {
-    List<Rooms> enumList =
-      new List<Rooms>();
-
-    for (int i = 0; i < (int)Rooms.RoomIndex; ++i)
-    {
-      enumList.Add((Rooms)i);
-    }
-
-    enumList.Sort(SortByHeuristic);
-
     if (p_SortedRooms.Count != 0)
       p_SortedRooms.Clear();
 
@@ -253,15 +224,9 @@ public class LevelSystem : MonoBehaviour {
 
     //Do nothing atm
     //Place rooms into Sorted
-    for (int i = 0; i < enumList.Count; ++i)
-      p_SortedRooms.Add(RoomPrefabs[(int)enumList[i]]);
-    
-  }
+    for (int i = 0; i < Rooms.Length; ++i)
+      p_SortedRooms.Add(Rooms[i]);
 
-  int SortByHeuristic(Rooms room1 , Rooms room2)
-  {
-    return PlayerStatTracker.GetComponent<Player_Stat_Traker>().GetCaust(room1).CompareTo(
-      PlayerStatTracker.GetComponent<Player_Stat_Traker>().GetCaust(room2));
   }
 
   int IndexDistance(Vector2 index1, Vector2 index2)
