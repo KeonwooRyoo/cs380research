@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33620096327105204}
   - component: {fileID: 23286027305029958}
   - component: {fileID: 65748327239587512}
+  - component: {fileID: 114783893927508238}
   m_Layer: 0
   m_Name: HazardB
   m_TagString: Ground
@@ -58,6 +59,7 @@ GameObject:
   - component: {fileID: 33635162497550248}
   - component: {fileID: 23171254685627912}
   - component: {fileID: 65437143159148972}
+  - component: {fileID: 208808653312276858}
   m_Layer: 0
   m_Name: Cube (14)
   m_TagString: HazardB
@@ -76,6 +78,7 @@ GameObject:
   - component: {fileID: 33368911463788082}
   - component: {fileID: 23822798295191838}
   - component: {fileID: 65956409677247684}
+  - component: {fileID: 208235067540219220}
   m_Layer: 0
   m_Name: Cube (4)
   m_TagString: HazardB
@@ -94,6 +97,7 @@ GameObject:
   - component: {fileID: 33531434852348556}
   - component: {fileID: 23571744971264942}
   - component: {fileID: 65465664978920510}
+  - component: {fileID: 208829219772175322}
   m_Layer: 0
   m_Name: Cube (5)
   m_TagString: HazardB
@@ -130,6 +134,7 @@ GameObject:
   - component: {fileID: 33521882824049526}
   - component: {fileID: 23004706235183140}
   - component: {fileID: 65260296440491930}
+  - component: {fileID: 208830700174105144}
   m_Layer: 0
   m_Name: Cube (8)
   m_TagString: HazardB
@@ -148,6 +153,7 @@ GameObject:
   - component: {fileID: 33492851038392236}
   - component: {fileID: 23756078111485484}
   - component: {fileID: 65588078055337214}
+  - component: {fileID: 208868005371621728}
   m_Layer: 0
   m_Name: Cube (6)
   m_TagString: HazardB
@@ -220,6 +226,7 @@ GameObject:
   - component: {fileID: 33122676914467616}
   - component: {fileID: 23278572438235384}
   - component: {fileID: 65765044507675458}
+  - component: {fileID: 208436926543138750}
   m_Layer: 0
   m_Name: Cube (16)
   m_TagString: HazardB
@@ -238,6 +245,7 @@ GameObject:
   - component: {fileID: 33335606125409248}
   - component: {fileID: 23548531224362586}
   - component: {fileID: 65517606311351008}
+  - component: {fileID: 208178472582917328}
   m_Layer: 0
   m_Name: Cube (10)
   m_TagString: HazardB
@@ -256,6 +264,7 @@ GameObject:
   - component: {fileID: 33263498665784938}
   - component: {fileID: 23315888850146722}
   - component: {fileID: 65280444511717400}
+  - component: {fileID: 208465023247216110}
   m_Layer: 0
   m_Name: Cube (9)
   m_TagString: HazardB
@@ -274,6 +283,7 @@ GameObject:
   - component: {fileID: 33050750819880830}
   - component: {fileID: 23576139960023734}
   - component: {fileID: 65344766278324912}
+  - component: {fileID: 208218834073235864}
   m_Layer: 0
   m_Name: Cube (13)
   m_TagString: HazardB
@@ -288,7 +298,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1032849142095210}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -29.7, y: 64.3, z: -49.1}
+  m_LocalPosition: {x: -47.522, y: 66.825, z: -23.946}
   m_LocalScale: {x: 10, y: 1, z: 10}
   m_Children:
   - {fileID: 4898099610316686}
@@ -341,7 +351,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1477389122700080}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1741103, y: 1.7907001, z: -0.12815008}
+  m_LocalPosition: {x: 0.1741103, y: -0.35, z: -0.12815008}
   m_LocalScale: {x: 0.6517952, y: 2.581363, z: 0.07053981}
   m_Children: []
   m_Father: {fileID: 4143211970599202}
@@ -406,7 +416,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1573294644176390}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1740997, y: 1.7907001, z: 0.12815993}
+  m_LocalPosition: {x: -0.1740997, y: -0.35000026, z: 0.12815993}
   m_LocalScale: {x: 0.6517952, y: 2.581363, z: 0.072293}
   m_Children: []
   m_Father: {fileID: 4143211970599202}
@@ -1300,3 +1310,153 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114783893927508238
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1032849142095210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 9
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
+--- !u!208 &208178472582917328
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1821549193084686}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!208 &208218834073235864
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1931243667792876}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!208 &208235067540219220
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1232890431246454}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!208 &208436926543138750
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1788154713931224}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!208 &208465023247216110
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1927861808950232}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!208 &208808653312276858
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1231939920805724}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!208 &208829219772175322
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1253881886420674}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!208 &208830700174105144
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1408752585781556}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!208 &208868005371621728
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1468378606973964}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
