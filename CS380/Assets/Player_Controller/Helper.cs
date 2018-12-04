@@ -12,7 +12,7 @@ public class Helper : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        arrow.SetTarget(points[0]);
+        //arrow.SetTarget(points[0]);
     }
 
 	// Update is called once per frame
@@ -21,13 +21,13 @@ public class Helper : MonoBehaviour {
         {
             Achange = true;
             Bchange = false;
-            arrow.SetTarget(points[1]);
+            //arrow.SetTarget(points[1]);
         }
     else if(stats.AB_DeathRatio <= stats.BA_DeathRatio && Bchange == false)
         {
             Achange = false;
             Bchange = true;
-            arrow.SetTarget(points[0]);
+            //arrow.SetTarget(points[0]);
         }
 	}
 }

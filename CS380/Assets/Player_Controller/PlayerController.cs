@@ -32,13 +32,18 @@ public class PlayerController : MonoBehaviour {
       {
           gameObject.GetComponent<Transform>().Rotate(Vector3.up * Time.deltaTime * turn);
       }
-      //if W then move forward
-      if (Input.GetKey(KeyCode.W) && gameObject.GetComponent<Rigidbody>().maxAngularVelocity <= move && on_ground == true)
+        //if W then move forward
+      float mag = Vector3.Magnitude(gameObject.GetComponent<Rigidbody>().velocity);
+      if (Input.GetKey(KeyCode.W) && mag <= move && on_ground == true)
       {
           gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * move_Accel);
       }
+      else if (mag > move)
+      {
+            int i = 0;
+      }
       //if S then move back
-      if (Input.GetKey(KeyCode.S) && gameObject.GetComponent<Rigidbody>().maxAngularVelocity <= move && on_ground == true)
+      if (Input.GetKey(KeyCode.S) && mag <= move && on_ground == true)
       {
           gameObject.GetComponent<Rigidbody>().AddForce(-transform.forward * move_Accel);
         }

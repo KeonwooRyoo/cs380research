@@ -63,21 +63,23 @@
   <ItemGroup>
     <Compile Include="Assets\Player_Controller\Arrow.cs" />
     <Compile Include="Assets\Player_Controller\Helper.cs" />
+    <Compile Include="Assets\Player_Controller\Path_Drawer.cs" />
     <Compile Include="Assets\Player_Controller\Player_Stat_Traker.cs" />
     <Compile Include="Assets\Player_Controller\PlayerController.cs" />
-    <Compile Include="Assets\Player_Controller\Spawn.cs" />
+    <Compile Include="Assets\Player_Controller\Target.cs" />
     <Compile Include="Assets\Scripts\LevelSystem.cs" />
+    <Compile Include="Assets\Scripts\UI_Buddy.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Users/DJ/Desktop/CS380/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/DJ/Documents/GitHub/cs380research_Branch/CS380/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/DJ/Desktop/CS380/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/DJ/Documents/GitHub/cs380research_Branch/CS380/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/DJ/Desktop/CS380/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/DJ/Documents/GitHub/cs380research_Branch/CS380/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/DJ/Desktop/CS380/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/DJ/Documents/GitHub/cs380research_Branch/CS380/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -310,6 +312,16 @@
     <Reference Include="Boo.Lang">
       <HintPath>D:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/unity/Boo.Lang.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="NavMeshComponentsEditor.csproj">
+      <Project>{68F9E31E-B2DA-2FF5-3848-9E73489A8976}</Project>
+      <Name>NavMeshComponentsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponents.csproj">
+      <Project>{DD8A24E7-B22D-31FB-2E16-B1FAD72325FC}</Project>
+      <Name>NavMeshComponents</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

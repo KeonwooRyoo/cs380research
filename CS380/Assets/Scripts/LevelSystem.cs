@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum DummyEnum
 {
@@ -33,35 +34,33 @@ public class LevelSystem : MonoBehaviour {
   public List<Vector3> m_RoomPositions;
   public List<GameObject> m_SpawnedRooms;
 
-
-  [Header("Stats")]
-  public Player_Stat_Traker stats;
-
   //Privates
   List<GameObject> p_SortedRooms;   //Possible Usage to sort by heuristic cost
 
-    private void Awake()
-    {
-        p_SortedRooms = new List<GameObject>();
-        m_SpawnedRooms = new List<GameObject>();
 
-        if (m_GenerateOnStart)
-            GenerateRooms(m_StartHeight, m_StartWidth);
-    }
-    // Use this for initialization
-    void Start () {
-    
+	// Use this for initialization
+	void Start () {
+    p_SortedRooms = new List<GameObject>();
+    m_SpawnedRooms = new List<GameObject>();
+
+    if (m_GenerateOnStart)
+      GenerateRooms(m_StartHeight, m_StartWidth);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-  }
+    }
 
   //Returns success or failure
   public bool GenerateRooms(int height, int width, bool random = false)
   {
     Debug.Log("[LVGEN] Generating Rooms");
+
+    if (SetSeed != true)
+    {
+       seed = (int)(Random.value * 100000);
+    }
+    Random.InitState(seed++);
 
     //Reset Lists
     m_RoomPositions.Clear();
@@ -119,35 +118,30 @@ public class LevelSystem : MonoBehaviour {
       for (int j = 0; j < width; ++j)
       {
         GameObject spawnedRoom;
-        int mask = 1;                //The number of indexes to mask based on distance
-        //Set mask value
-        float indexDistance = 
-          IndexDistance(new Vector2(j, i), goalIndex);
-        float distanceRatio = indexDistance / maxIndexDistance;
-        //Lock mask so it can only mask up to 75% of the total vector
-        mask +=
-          (int)(((float)p_SortedRooms.Count * .75f) * distanceRatio);
-        Debug.Log("[LVGEN] Mask set to: " + mask +
-                  " at Distance Ratio: " + distanceRatio + 
-                  " from index: " + new Vector2(j, i) +
-                  " to goal index: " + goalIndex);
-
-
-        //Check if start or goal
-        if (i == startIndex.y && j == startIndex.x)
-          spawnedRoom = 
-            Instantiate(StartRoom);
-        else if (i == goalIndex.y && j == goalIndex.x)
-          spawnedRoom = 
-            Instantiate(GoalRoom);
-        else
-          spawnedRoom = 
-            Instantiate(p_SortedRooms[Random.Range(0, p_SortedRooms.Count - mask)]);
-
+        if ((j == 0 && i == 0) || (j == width - 1 && i == height - 1))//if it's the spawn or the goal then make it a default room
+        {
+          spawnedRoom = Instantiate(Rooms[0]);
+        }
+        else//if it's neither the goal nore the spawn then select another room
+        {
+          spawnedRoom = Instantiate(Rooms[Random.Range(0, Rooms.Length)]);
+        }
         Vector3 spawnPos = anchor;
         spawnPos.x += m_RoomBaseSize.x * j;
         spawnPos.z += m_RoomBaseSize.z * i;
         spawnedRoom.transform.position = spawnPos;
+
+        if(spawn == true)
+        {
+           //if it is the startroom, then move the player and path agent there
+           stats.gameObject.transform.position = spawnPos;
+           stats.spawn = spawnedRoom;
+           path.gameObject.GetComponent<NavMeshAgent>().Warp(spawnPos);
+        }
+        else if(goal == true)
+        {
+           path.goal = spawnPos;
+        }
 
         //Push into lists
         m_RoomPositions.Add(spawnPos);
@@ -224,13 +218,112 @@ public class LevelSystem : MonoBehaviour {
 
     //Do nothing atm
     //Place rooms into Sorted
-    for (int i = 0; i < Rooms.Length; ++i)
-      p_SortedRooms.Add(Rooms[i]);
+    //int j = 0;
+    int len = Rooms.Length;
+    int[] roomSort = new int[len];
+    int[] oldRooms = new int[len];
 
-  }
+    for(int i = 0; i < len; ++ i)
+    {  oldRooms[i] = i; }
+
+    for(int i = 0; i < len; ++i)
+    {
+        float highestWeight = 0;
+        int highestJ= 0;
+        int j = 0;
+        while ( j < len)
+        {
+            if (oldRooms[j] != -1 && highestWeight < NavMesh.GetAreaCost(oldRooms[j]+ (int)Room.ItemRoomA))
+            {
+               highestWeight = NavMesh.GetAreaCost(oldRooms[j] + (int)Room.ItemRoomA);
+               highestJ = j;
+            }
+            ++j;
+        }
+       roomSort[i] = highestJ;
+       oldRooms[highestJ] = -1;
+    }
+
+    for (int i = 0; i < len; ++i)
+    {
+       p_SortedRooms.Add(Rooms[roomSort[i]]);
+    }
+
+    int count = p_SortedRooms.Count;
+    int added = 0;
+    for(int i = 0; i < count-1; ++i)
+    {
+      for(int j = 0; j <= i; ++j)
+      {
+        p_SortedRooms.Insert(added, p_SortedRooms[(added++) + j]);
+      }
+    }
+        added = 0;
+}
 
   int IndexDistance(Vector2 index1, Vector2 index2)
   {
     return (int)(Mathf.Abs(index1.x - index2.x) + Mathf.Abs(index1.y - index2.y));
   }
 }
+
+  [Header("Stats")]
+  public Player_Stat_Traker stats;
+  public Target path;
+  public bool SetSeed;
+  public int seed;
+    //Privates
+    List<GameObject> p_SortedRooms;   //Possible Usage to sort by heuristic cost
+
+    private void Awake()
+    {
+        p_SortedRooms = new List<GameObject>();
+        m_SpawnedRooms = new List<GameObject>();
+
+        if (m_GenerateOnStart)
+            GenerateRooms(m_StartHeight, m_StartWidth);
+
+        GetComponent<NavMeshSurface>().BuildNavMesh();
+    }
+    // Use this for initialization
+    void Start () {
+        
+        GameObject spawnedRoom;
+        int mask = 0;                //The number of indexes to mask based on distance
+        //Set mask value
+        float indexDistance = 
+          IndexDistance(new Vector2(j, i), startIndex);
+        float distanceRatio = indexDistance / maxIndexDistance;
+        //Lock mask so it can only mask up to 75% of the total vector
+        mask +=
+          (int)(((float)p_SortedRooms.Count * .66f) * distanceRatio);
+        Debug.Log("[LVGEN] Mask set to: " + mask +
+                  " at Distance Ratio: " + distanceRatio + 
+                  " from index: " + new Vector2(j, i) +
+                  " to goal index: " + goalIndex);
+
+       bool spawn = false;
+       bool goal = false;
+                //Check if start or goal
+                if (i == startIndex.y && j == startIndex.x)
+                {
+                    spawnedRoom = Instantiate(StartRoom);
+                    spawn = true;
+                }
+                else if (i == goalIndex.y && j == goalIndex.x)
+                {
+                    spawnedRoom = Instantiate(GoalRoom);
+                    goal = true;
+                }
+                else
+                    spawnedRoom =
+                      Instantiate(p_SortedRooms[Random.Range(0, p_SortedRooms.Count - mask)]);
+
+
+  public void BuildNextLevel()
+  {
+        //GenerateRooms(m_StartHeight, m_StartWidth);
+
+        //GetComponent<NavMeshSurface>().BuildNavMesh();
+        //stats.Restart();
+    }
